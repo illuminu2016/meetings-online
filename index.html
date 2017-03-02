@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <meta name="HandheldFriendly" content="true" />
+    <title>Responsive Login Form</title>
+
+
+    <link rel='stylesheet prefetch'
+          href='http://ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/themes/smoothness/jquery-ui.css'>
+
+    <link rel="stylesheet" href="css/style.css">
+    <link href='http://fonts.googleapis.com/css?family=Ubuntu:500' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+</head>
+
+<body>
+<a href="http://www.freepik.com" style="color: rgba(255, 255, 255, 0)">Designed by Freepik</a>
+<div class="login">
+    <div class="login-header">
+        <h1>Login to Meetings</h1>
+    </div>
+    <div class="login-form">
+        <h3 class="hidden-xs">Username:</h3>
+        <input type="text" id="username" placeholder="Username"/><br>
+        <h3 class="hidden-xs">Password:</h3>
+        <input type="password" id="password" placeholder="Password"/>
+        <div class="clearfix" style="margin: 20px 0;">
+            <div class="pull-left col-xs-7">
+                <div onclick="login()" class="login-container" style="background: #167ac6; border: none;">
+                    <div class="clearfix login-784">
+                        <div class="pull-left loader-gif90"></div>
+                        <div class="pull-right login-btn" style="color: white; margin-left: 2px;">Login</div>
+                    </div>
+                </div>
+            </div>
+            <div class="pull-right col-xs-4">
+                <div onclick="login()" class="login-container">
+                    <span>Sign Up!</span>
+                </div>
+            </div>
+        </div>
+        <div style="margin: 35px 0; text-align: left;">
+            <h6 class="no-access">Can't access your account?</h6>
+        </div>
+    </div>
+</div>
+<script src="js/jquery.min.js"></script>
+<script src="login.js"></script>
+</body>
+</html>

@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Geolocation</title>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+    <meta charset="utf-8">
+    <style>
+      /* Always set the map height explicitly to define the size of the div
+       * element that contains the map. */
+      #map {
+        height: 100%;
+      }
+      /* Optional: Makes the sample page fill the window. */
+      html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+      }
+      .loader {
+        background: url('icons/loader.gif') no-repeat;
+        width: 100px;
+        height: 100px;
+        position: relative;
+        top: 50%;
+        transform: translateY(-50%);
+        margin: 0 auto;
+      }
+      .header {
+        height: 70px;
+        background: #83b7c7;
+        -webkit-box-shadow: -1px -10px 50px -2px rgba(0,0,0,0.75);
+        -moz-box-shadow: -1px -10px 50px -2px rgba(0,0,0,0.75);
+        box-shadow: -1px -10px 50px -2px rgba(0,0,0,0.75);
+        z-index: 9999;
+        position: relative;
+        width: 100%;
+      }
+      .loader_wrapper {
+        height: 100%;
+      }
+      .gm-style-iw {
+        width: 350px !important;
+        top: 15px !important;
+        left: 0px !important;
+        background-color: #fff;
+        box-shadow: 0 1px 6px rgba(178, 178, 178, 0.6);
+        border: 1px solid rgba(72, 181, 233, 0.6);
+        border-radius: 2px 2px 10px 10px;
+      }
+      .gm-style-iw > div {
+        width: 100%;
+      }
+      .iw-container {
+        margin-bottom: 10px;
+      }
+      .iw-container .iw-title {
+        font-family: 'Open Sans Condensed', sans-serif;
+        font-size: 22px;
+        font-weight: 400;
+        padding: 10px;
+        background-color: #48b5e9;
+        color: white;
+        margin: 0;
+        border-radius: 2px 2px 0 0;
+      }
+      .iw-container .iw-content {
+        font-size: 13px;
+        line-height: 18px;
+        font-weight: 400;
+        margin-right: 1px;
+        padding: 15px 5px 20px 15px;
+        max-height: 140px;
+        overflow-y: auto;
+        overflow-x: hidden;
+      }
+      .iw-content img {
+        float: right;
+        margin: 0 5px 5px 10px;
+      }
+      .iw-subTitle {
+        font-size: 16px;
+        font-weight: 700;
+        padding: 5px 0;
+      }
+      .iw-bottom-gradient {
+        position: absolute;
+        width: 326px;
+        height: 25px;
+        bottom: 10px;
+        right: 18px;
+        background: linear-gradient(to bottom, rgba(255,255,255,0) 0%, rgba(255,255,255,1) 100%);
+        background: -webkit-linear-gradient(top, rgba(255,255,255,0) 0%, rgba(255,255,255,1) 100%);
+        background: -moz-linear-gradient(top, rgba(255,255,255,0) 0%, rgba(255,255,255,1) 100%);
+        background: -ms-linear-gradient(top, rgba(255,255,255,0) 0%, rgba(255,255,255,1) 100%);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="header"></div>
+    <div class="loader_wrapper">
+      <div class="loader"></div>
+    </div>
+
+    <div id="map"></div>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDo37l4MH5aai6EcUNeslYGaEGXzx4C_4g">
+    </script>
+    <script src="js/jquery.min.js"></script>
+    <script src="js/jquery.easing.1.3.js"></script>
+
+
+    <script src="js/markerAnimate.js"></script>
+    <script src="js/SlidingMarker.min.js"></script>
+    <script>
+      SlidingMarker.initializeGlobally();
+    </script>
+    <script src="js/markerwithlabel.terikon.js"></script>
+    <script src="genericMap.js"></script>
+  </body>
+</html>

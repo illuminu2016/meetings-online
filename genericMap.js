@@ -373,7 +373,7 @@ function initMap() {
     map.mapTypes.set('styled_map', styledMapType);
     map.setMapTypeId('styled_map');
 
-    setInterval(function() { getLocation(map); }, 10000);
+    setInterval(function() { getLocation(map); }, 10000000000);
 }
 
 function handleLocationError(browserHasGeolocation, infoWindow, pos) {

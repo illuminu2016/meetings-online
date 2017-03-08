@@ -4,6 +4,7 @@
     <title>Geolocation</title>
     <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
     <meta charset="utf-8">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
     <style>
       /* Always set the map height explicitly to define the size of the div
        * element that contains the map. */
@@ -25,6 +26,10 @@
         top: 50%;
         transform: translateY(-50%);
         margin: 0 auto;
+      }
+      .logout-btn {
+        float: right;
+        margin: 20px 30px;
       }
       .header {
         height: 70px;
@@ -97,7 +102,9 @@
     </style>
   </head>
   <body>
-    <div class="header"></div>
+    <div class="header">
+      <button type="button" class="btn btn-success logout-btn" onclick="location.href = 'index.html'">Logout</button>
+    </div>
     <div class="loader_wrapper">
       <div class="loader"></div>
     </div>

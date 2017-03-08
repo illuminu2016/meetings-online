@@ -13,7 +13,7 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
-$sql = "INSERT INTO locations (user, lat, lng) VALUES ($user, $latitude, $longitude)";
+$sql = "UPDATE locations SET lat=$latitude, lng=$longitude WHERE user='$user'";
 
 if ($conn->query($sql) === TRUE) {
     echo "202";

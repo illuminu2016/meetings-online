@@ -3,6 +3,7 @@ require 'credentials.php';
 
 $latitude = $_POST["lat"];
 $longitude = $_POST["lng"];
+$genre = $_POST["genre"];
 $user = $_POST["user"];
 
 // Create connection
@@ -13,7 +14,7 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
-$sql = "UPDATE locations SET lat=$latitude, lng=$longitude WHERE user='$user'";
+$sql = "UPDATE locations SET lat=$latitude, lng=$longitude, genre='$genre'  WHERE user='$user'";
 
 if ($conn->query($sql) === TRUE) {
     echo "202";

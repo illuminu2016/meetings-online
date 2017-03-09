@@ -17,6 +17,13 @@ var login = function () {
 
     if(!!username && !!password) {
         $.post("backend/login.php", requestObj, function () {
+
+            if(username === 'ana') {
+                localStorage.setItem('genre', 'female');
+            } else {
+                localStorage.setItem('genre', 'male');
+            }
+
             localStorage.setItem('username', username);
             location.href = 'map.html';
         });

@@ -3,10 +3,11 @@
  */
 var geoLocated = false,
     markers = [],
-    instancesMarker = [];
+    instancesMarker = [],
+    circle = null;
 
 function addMarkerOnMap(map, icon, pos, user, inArray) {
-    if(!inArray) {
+    if (!inArray) {
         var marker = new MarkerWithLabel({
                 map: map,
                 draggable: false,
@@ -17,7 +18,7 @@ function addMarkerOnMap(map, icon, pos, user, inArray) {
             contentStringCal = null,
             infowindow = new google.maps.InfoWindow({});
 
-        if(user == 'cosmin') {
+        if (user == 'cosmin') {
             contentStringCal = '<div id="contentCal" class="iw-container">' +
                 '<div class="iw-title"></div>' +
                 '<div>' +
@@ -30,7 +31,8 @@ function addMarkerOnMap(map, icon, pos, user, inArray) {
                 '</div>' +
                 '</div>';
         } else {
-            contentStringCal = '<div id="contentCal">' +
+            contentStringCal = '<div id="contentCal" class="iw-container">' +
+                '<div class="iw-title"></div>' +
                 '<div>' +
                 '<div style="margin: 0 auto;">' +
                 '<img src="ana.jpg" width="80" height="80">' +
@@ -42,42 +44,39 @@ function addMarkerOnMap(map, icon, pos, user, inArray) {
                 '</div>';
         }
 
-       var newLen = markers.push(marker);
-        instancesMarker.forEach(function(item){
-           if(item.username === user) {
-               item.instancePosition = newLen - 1;
-           }
+        var newLen = markers.push(marker);
+        instancesMarker.forEach(function (item) {
+            if (item.username === user) {
+                item.instancePosition = newLen - 1;
+            }
         });
 
         instancesMarker[newLen - 1].instancePosition = newLen - 1;
 
-        google.maps.event.addListener(marker, 'mouseover', function() {
+        google.maps.event.addListener(marker, 'mouseover', function () {
             //open the infowindow when it's not open yet
-            if(contentStringCal!=infowindow.getContent())
-            {
+            if (contentStringCal != infowindow.getContent()) {
                 infowindow.setContent(contentStringCal);
-                infowindow.open(map,marker);
+                infowindow.open(map, marker);
             }
         });
 
-        google.maps.event.addListener(marker, 'click', function() {
+        google.maps.event.addListener(marker, 'click', function () {
             //when the infowindow is open, close it an clear the contents
-            if(contentStringCal==infowindow.getContent())
-            {
-                infowindow.close(map,marker);
+            if (contentStringCal == infowindow.getContent()) {
+                infowindow.close(map, marker);
                 infowindow.setContent('');
             }
             //otherwise trigger mouseover to open the infowindow
-            else
-            {
+            else {
                 google.maps.event.trigger(marker, 'mouseover');
             }
         });
         //clear the contents of the infwindow on closeclick
-        google.maps.event.addListener(infowindow, 'closeclick', function() {
+        google.maps.event.addListener(infowindow, 'closeclick', function () {
             infowindow.setContent('');
         });
-        google.maps.event.addListener(infowindow, 'domready', function() {
+        google.maps.event.addListener(infowindow, 'domready', function () {
             // Reference to the DIV that wraps the bottom of infowindow
             var iwOuter = $('.gm-style-iw');
 
@@ -88,43 +87,59 @@ function addMarkerOnMap(map, icon, pos, user, inArray) {
             var iwBackground = iwOuter.prev();
 
             // Removes background shadow DIV
-            iwBackground.children(':nth-child(2)').css({'display' : 'none'});
+            iwBackground.children(':nth-child(2)').css({'display': 'none'});
 
             // Removes white background DIV
-            iwBackground.children(':nth-child(4)').css({'display' : 'none'});
+            iwBackground.children(':nth-child(4)').css({'display': 'none'});
 
             // Moves the infowindow 115px to the right.
             iwOuter.parent().parent().css({left: '115px'});
 
             // Moves the shadow of the arrow 76px to the left margin.
-            iwBackground.children(':nth-child(1)').attr('style', function(i,s){ return s + 'left: 76px !important;'});
+            iwBackground.children(':nth-child(1)').attr('style', function (i, s) {
+                return s + 'left: 76px !important;'
+            });
 
             // Moves the arrow 76px to the left margin.
-            iwBackground.children(':nth-child(3)').attr('style', function(i,s){ return s + 'left: 76px !important;'});
+            iwBackground.children(':nth-child(3)').attr('style', function (i, s) {
+                return s + 'left: 76px !important;'
+            });
 
             // Changes the desired tail shadow color.
-            iwBackground.children(':nth-child(3)').find('div').children().css({'box-shadow': 'rgba(72, 181, 233, 0.6) 0px 1px 6px', 'z-index' : '1'});
+            iwBackground.children(':nth-child(3)').find('div').children().css({
+                'box-shadow': 'rgba(72, 181, 233, 0.6) 0px 1px 6px',
+                'z-index': '1'
+            });
 
             // Reference to the div that groups the close button elements.
             var iwCloseBtn = iwOuter.next();
 
             // Apply the desired effect to the close button
-            iwCloseBtn.css({opacity: '1', right: '38px', top: '3px', border: '7px solid #48b5e9', 'border-radius': '13px', 'box-shadow': '0 0 5px #3990B9'});
+            iwCloseBtn.css({
+                opacity: '1',
+                right: '38px',
+                top: '3px',
+                height: '27px',
+                width: '27px',
+                border: '7px solid #48b5e9',
+                'border-radius': '13px',
+                'box-shadow': '0 0 5px #3990B9'
+            });
 
             // If the content of infowindow not exceed the set maximum height, then the gradient is removed.
-            if($('.iw-content').height() < 140){
+            if ($('.iw-content').height() < 140) {
                 $('.iw-bottom-gradient').css({display: 'none'});
             }
 
             // The API automatically applies 0.7 opacity to the button after the mouseout event. This function reverses this event to the desired value.
-            iwCloseBtn.mouseout(function(){
+            iwCloseBtn.mouseout(function () {
                 $(this).css({opacity: '1'});
             });
         });
     } else {
         var newPosition = {
-            lat: 47.1566,
-            lng: 27.5902
+            lat: pos.lat,
+            lng: pos.lng
         };
 
         var instanceMarker = instancesMarker.find(function (instance) {
@@ -161,47 +176,51 @@ function deleteMarkers() {
 function getLocation(map) {
     var infoWindow = new google.maps.InfoWindow({}),
         username = localStorage.getItem('username'),
+        genre = localStorage.getItem('genre'),
         icon = {
             url: "icons/man.png",
-            anchor: new google.maps.Point(25,50),
-            scaledSize: new google.maps.Size(42,100)
+            anchor: new google.maps.Point(25, 50),
+            scaledSize: new google.maps.Size(42, 100)
         },
         icon2 = {
             url: "icons/female.png",
-            anchor: new google.maps.Point(25,50),
-            scaledSize: new google.maps.Size(42,100)
+            anchor: new google.maps.Point(25, 50),
+            scaledSize: new google.maps.Size(42, 100)
         };
     // Try HTML5 geolocation.
     if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(function(position) {
+        navigator.geolocation.getCurrentPosition(function (position) {
             var pos = {
                 lat: position.coords.latitude,
                 lng: position.coords.longitude
             };
 
-            var circle = new google.maps.Circle({
-                map: map,
-                radius: 85,
-                strokeColor: "#83b7c7",
-                strokeOpacity: 0.8,
-                fillOpacity: 0.35,
-                strokeWeight: 2,
-                fillColor: '#83b7c7',
-                center: pos
-            });
+            if(!circle) {
+                //circle.setMap(null);
+                circle = new google.maps.Circle({
+                    map: map,
+                    radius: 85,
+                    strokeColor: "#83b7c7",
+                    strokeOpacity: 0.8,
+                    fillOpacity: 0.35,
+                    strokeWeight: 2,
+                    fillColor: '#83b7c7',
+                    center: pos
+                });
+            }
 
             map.setCenter(pos);
 
-            if(geoLocated) {
+            if (geoLocated) {
                 //deleteMarkers();
             }
 
-            $.post( "backend/storeLocations.php", { user: username, lat: pos.lat, lng: pos.lng }, function( data ) {
-                $.get( "backend/getLocations.php", function( data ) {
+            $.post("backend/storeLocations.php", {user: username, lat: pos.lat, lng: pos.lng, genre: genre}, function (data) {
+                $.get("backend/getLocations.php", function (data) {
                     var response = JSON && JSON.parse(data) || $.parseJSON(data);
 
-                    response.forEach(function (item){
-                        if(item.user != username) {
+                    response.forEach(function (item) {
+                        if (item.user != username) {
                             var pos = {
                                 lat: parseFloat(item.lat),
                                 lng: parseFloat(item.lng)
@@ -211,14 +230,14 @@ function getLocation(map) {
                                 return instance.username === item.user;
                             });
 
-                            if(!inArray) {
+                            if (!inArray) {
                                 instancesMarker.push({
                                     username: item.user,
                                     instancePosition: null
                                 });
                             }
 
-                            if(item.user == 'cosmin') {
+                            if (item.genre === 'male') {
                                 addMarkerOnMap(map, icon, pos, item.user, inArray);
                             } else {
                                 addMarkerOnMap(map, icon2, pos, item.user, inArray);
@@ -228,13 +247,14 @@ function getLocation(map) {
                     });
                 });
             });
-        }, function() {
+        }, function () {
             handleLocationError(true, infoWindow, map.getCenter());
         });
 
         geoLocated = true;
 
-        $( ".loader_wrapper" ).hide();
+        $('.loader_wrapper').hide();
+        $('#map').css({ opacity: 1, zoom: 1 });
     } else {
         // Browser doesn't support Geolocation
         handleLocationError(false, infoWindow, map.getCenter());
@@ -358,22 +378,28 @@ function initMap() {
             }
         ],
         {name: 'Styled Map'}),
-     map = new google.maps.Map(document.getElementById('map'), {
-        center: {lat: 47.1569485, lng: 27.589585100000032},
-        zoom: 18,
-        disableDefaultUI: true,
-        scrollwheel: true,
-        mapTypeControlOptions: {
-            mapTypeIds: ['roadmap', 'satellite', 'hybrid', 'terrain',
-                'styled_map']
-        }
-    });
+        map = new google.maps.Map(document.getElementById('map'), {
+            center: {lat: 47.1569485, lng: 27.589585100000032},
+            zoom: 18,
+            minZoom: 18,
+            maxZoom: 18,
+            disableDefaultUI: true,
+            scrollwheel: true,
+            mapTypeControlOptions: {
+                mapTypeIds: ['roadmap', 'satellite', 'hybrid', 'terrain',
+                    'styled_map']
+            }
+        });
+
+    $('#map').css({ opacity: 0, zoom: 0 });
 
     //Associate the styled map with the MapTypeId and set it to display.
     map.mapTypes.set('styled_map', styledMapType);
     map.setMapTypeId('styled_map');
 
-    setInterval(function() { getLocation(map); }, 10000);
+    setInterval(function () {
+        getLocation(map);
+    }, 10000);
 }
 
 function handleLocationError(browserHasGeolocation, infoWindow, pos) {
